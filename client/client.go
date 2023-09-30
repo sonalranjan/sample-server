@@ -1,18 +1,19 @@
 package client
 
 import (
-	"github.com/sample-server/client/logger"
-	"github.com/sample-server/config"
+	"github.com/sirupsen/logrus"
+	"github.com/srnewbie/sample-server/client/logger"
+	"github.com/srnewbie/sample-server/config"
 )
 
 type Client struct {
-	Config       *config.Config
-	Logger       *logger.Logger
+	Config *config.Config
+	Logger *logrus.Logger
 }
 
 func New(config *config.Config) (*Client, error) {
 	return &Client{
-		Config:       config,
-		Logger:       logger.New(config),
+		Config: config,
+		Logger: logger.New(config.Client.Logger),
 	}, nil
 }

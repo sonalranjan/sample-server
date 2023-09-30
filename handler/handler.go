@@ -1,27 +1,30 @@
 package handler
 
 import (
-	"context"
 	"encoding/json"
 	"net/http"
 
-	"github.com/sample-server/client"
-	"github.com/sample-server/config"
-	"github.com/sample-server/service"
+	"github.com/srnewbie/sample-server/client"
+	"github.com/srnewbie/sample-server/config"
 )
 
-type Handler struct {
-	c *client.Client
-	f *config.Config
-	s *service.Service
-}
+type (
+	Handler struct {
+		c *client.Client
+		f *config.Config
+	}
+	HTTPResponse struct {
+		Data interface{} `json:"data"`
+		Err  string      `json:"err"`
+	}
+)
 
-func New(f *config.Config, c *client.Client, s *service.Service) *Handler {
-	return &Handler{c, f, s}
+func New(f *config.Config, c *client.Client) *Handler {
+	return &Handler{c, f}
 }
 
 func respond(w http.ResponseWriter, status int, data interface{}, err string) {
-	response := &model.HTTPResponse{
+	response := &HTTPResponse{
 		Data: data,
 		Err:  err,
 	}

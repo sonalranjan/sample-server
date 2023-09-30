@@ -1,6 +1,6 @@
 server:
   http:
-    addr: 0.0.0.0:9099
+    addr: 0.0.0.0:8088
 
 client:
   logger:

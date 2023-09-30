@@ -6,21 +6,19 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/sample-server/handler"
-	"github.com/sample-server/service"
-	"github.com/sample-server/client"
-	"github.com/sample-server/config"
-	"github.com/sample-server/server"
+	"github.com/srnewbie/sample-server/client"
+	"github.com/srnewbie/sample-server/config"
+	"github.com/srnewbie/sample-server/handler"
+	"github.com/srnewbie/sample-server/server"
 	"go.uber.org/fx"
 )
 
 func main() {
 	f := fx.New(
 		fx.Provide(
-			config.New(config.GetEnvironment()),
+			config.New(),
 			client.New,
 			handler.New,
-			service.New,
 			server.New,
 		),
 		fx.Invoke(server.Register),
