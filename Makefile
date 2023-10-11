@@ -12,4 +12,3 @@ run: build
 
 clean:
 	@rm -rf $(GO_BIN)
-	@rm -rf $(PROTO_OUT)

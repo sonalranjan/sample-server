@@ -3,8 +3,8 @@ module github.com/srnewbie/sample-server
 go 1.20
 
 require (
+	github.com/google/uuid v1.1.2
 	github.com/gorilla/mux v1.8.0
-	github.com/pkg/errors v0.9.1
 	github.com/sirupsen/logrus v1.9.3
 	github.com/spf13/viper v1.16.0
 	go.uber.org/fx v1.20.0
