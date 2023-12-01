@@ -40,9 +40,6 @@ func Register(lifecycle fx.Lifecycle, s *Server) {
 		fx.Hook{
 			OnStart: func(ctx context.Context) error {
 				s.Router.HandleFunc("/health", s.Handler.Health())
-				s.Router.HandleFunc("/questions", s.Handler.CreateQuestions()).Methods("POST")
-				s.Router.HandleFunc("/questions", s.Handler.ListQuestions()).Methods("GET")
-				s.Router.HandleFunc("/upvote", s.Handler.UpVote()).Methods("POST")
 				go func(s *Server) {
 					s.Client.Logger.Info(fmt.Sprintf("http: listen at %s", s.Config.Server.HTTP.Addr))
 					if err := s.HTTPServer.ListenAndServe(); err != nil {
