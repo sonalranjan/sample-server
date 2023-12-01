@@ -10,6 +10,7 @@ import (
 	"github.com/srnewbie/sample-server/config"
 	"github.com/srnewbie/sample-server/handler"
 	"github.com/srnewbie/sample-server/server"
+	"github.com/srnewbie/sample-server/service"
 	"go.uber.org/fx"
 )
 
@@ -20,6 +21,7 @@ func main() {
 			client.New,
 			handler.New,
 			server.New,
+			service.New,
 		),
 		fx.Invoke(server.Register),
 	)
