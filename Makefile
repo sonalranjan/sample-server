@@ -8,7 +8,7 @@ build: $(GO_BIN)
 	GO111MODULE=on go build -o $(GO_BIN)/sample-server main.go
 
 run: build
-	./bin/sample-server
+	./bin/sample-server --config-files-dir ./config/yaml
 
 clean:
 	@rm -rf $(GO_BIN)

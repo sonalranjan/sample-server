@@ -12,6 +12,11 @@ import (
 var logger *zap.SugaredLogger
 
 type (
+	Params struct {
+		ConfigFilesDir string `name:"config-files-dir" default:"/etc/sample-server-config/" help:"Config file dir for SampleServer service."`
+		EnableSwagger  bool   `name:"swagger" default:"true" help:"Enable swagger."`
+	}
+
 	Config struct {
 		Server *ServerConfig
 		Client *ClientConfig
@@ -35,21 +40,31 @@ type (
 	}
 )
 
-func New() func() (*Config, error) {
+func New(params Params) func() (*Config, error) {
 	l, err := zap.NewProduction()
 	if err != nil {
 		panic(err)
 	}
 	logger = l.Sugar()
 
-	exe, err := os.Executable()
-	if err != nil {
-		panic(err)
+	configPath := params.ConfigFilesDir
+	if configPath == "" {
+		exe, err := os.Executable()
+		if err != nil {
+			panic(err)
+		}
+
+		logger.Infow("Executable", "exe", exe)
+		configPath = path.Join(filepath.Dir(exe), "../config/yaml")
 	}
+
+	logger.Infow("In Config.New", "params", params, "configPath", configPath)
+
 	return func() (*Config, error) {
 		viper.SetConfigName("base")
 		viper.SetConfigType("yaml")
-		viper.AddConfigPath(path.Join(filepath.Dir(exe), "../config/yaml"))
+		viper.AddConfigPath(configPath)
+
 		logger.Infow("creating base config")
 		err := viper.ReadInConfig()
 		if err != nil {

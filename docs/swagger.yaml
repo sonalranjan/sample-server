@@ -1,0 +1,14 @@
+info:
+  contact: {}
+  description: SampleServer API
+  title: SampleServer API
+  version: 0.0.1
+paths: {}
+schemes:
+- http
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: X-API-KEY
+    type: apiKey
+swagger: "2.0"

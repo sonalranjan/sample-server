@@ -6,6 +6,9 @@ import (
 	"os/signal"
 	"syscall"
 
+	"github.com/alecthomas/kong"
+	_ "github.com/srnewbie/sample-server/docs"
+
 	"github.com/srnewbie/sample-server/client"
 	"github.com/srnewbie/sample-server/config"
 	"github.com/srnewbie/sample-server/handler"
@@ -14,10 +17,24 @@ import (
 	"go.uber.org/fx"
 )
 
+// Run main() function with arguments like:
+// ./bin/sample-server --config-files-dir /etc/sample-server-config/
+//
+//	@title				SampleServer API
+//	@version			0.0.1
+//	@description			SampleServer API
+//	@Schemes			http
+//	@query.collection.format	multi
+//	@securityDefinitions.apikey	ApiKeyAuth
+//	@in				header
+//	@name				X-API-KEY
 func main() {
+	params := config.Params{}
+	_ = kong.Parse(&params)
+
 	f := fx.New(
 		fx.Provide(
-			config.New(),
+			config.New(params),
 			client.New,
 			handler.New,
 			server.New,
@@ -32,6 +49,7 @@ func main() {
 		syscall.SIGINT,
 		syscall.SIGTERM,
 	)
+
 	go func() {
 		<-terminate
 		_ = f.Stop(context.Background())
